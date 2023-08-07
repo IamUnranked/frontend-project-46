@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import _ from 'lodash';
 import buildTree from './buildTree.js';
 
 const genDiff = (filepath1, filepath2) => {
