@@ -3,6 +3,7 @@ env:
   node: true
   jest: true
 extends: airbnb-base
+run: npm install --save-dev eslint-config-airbnb-base
 overrides: []
 parserOptions:
   ecmaVersion: latest
