@@ -21,7 +21,6 @@ const buildTree = (object1, object2) => {
       key, value: object1[key], newValue: object2[key], type: 'changed',
     }];
   }, []);
-  return `{\n${result}}`;
 };
 
 export default buildTree;
