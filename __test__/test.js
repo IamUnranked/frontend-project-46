@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
-const expectFile = fs.readFileSync(getFixturePath('expected.txt'), 'utf-8');
+const expectFile = fs.readFileSync(getFixturePath('expectedStylish.txt'), 'utf-8');
 
 const data1 = getFixturePath('file1.json');
 const data2 = getFixturePath('file2.json');
