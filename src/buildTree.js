@@ -9,16 +9,16 @@ const buildTree = (object1, object2) => {
       return buildTree(object1[key], object2[key]);
     }
     if (!_.has(object2, key)) {
-      return [acc, { key, value: object2[key], type: 'deleted'}];
+      return [acc, { key, value: object2[key], type: 'deleted' }];
     }
     if (!_.has(object1, key)) {
       return [acc, { key, value: object2[key], type: 'added' }];
     }
     if (object1[key] === object2[key]) {
-      return [acc, { key, value: object1[key], type: 'unchanged'}];
+      return [acc, { key, value: object1[key], type: 'unchanged' }];
     }
     return [acc, {
-      key, value: object1[key], newValue: object2[key], type: 'changed' 
+      key, value: object1[key], newValue: object2[key], type: 'changed',
     }];
   }, []);
   return `{\n${result}}`;
