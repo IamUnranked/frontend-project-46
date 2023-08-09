@@ -4,7 +4,7 @@ const buildTree = (object1, object2) => {
   const keys1 = Object.keys(object1);
   const keys2 = Object.keys(object2);
   const keys = _.sortBy(_.union(keys1, keys2));
-  const result = keys.reduce((acc, key) => {
+  return keys.reduce((acc, key) => {
     if (_.isObject(object1[key]) && _.isObject(object2[key])) {
       return buildTree(object1[key], object2[key]);
     }
