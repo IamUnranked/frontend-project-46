@@ -9,7 +9,7 @@ const buildTree = (object1, object2) => {
       return [...acc, { key, value: buildTree(object1[key], object2[key]), type: 'nested' }];
     }
     if (!_.has(object2, key)) {
-      return [...acc, { key, value: object2[key], type: 'deleted' }];
+      return [...acc, { key, value: object1[key], type: 'deleted' }];
     }
     if (!_.has(object1, key)) {
       return [...acc, { key, value: object2[key], type: 'added' }];
