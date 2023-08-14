@@ -19,5 +19,5 @@ const data4 = getFixturePath('file2.yaml');
 test(genDiff, () => {
   expect(genDiff(data1, data2)).toEqual(expectFile);
   expect(genDiff(data3, data4)).toEqual(expectFile);
-  expect(genDiff(data3, data2)).toEqual(expectFilePlain);
+  expect(genDiff(data3, data2, 'plain')).toEqual(expectFilePlain);
 });

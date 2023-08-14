@@ -7,7 +7,7 @@ const getValue = (value) => {
   if (_.isObject(value)) {
     return '[complex value]';
   }
-  return value.toString();
+  return value;
 };
 
 const plain = (tree, path = '') => {
@@ -17,13 +17,13 @@ const plain = (tree, path = '') => {
         return `Property '${path}${node.key}' was added with value: ${getValue(node.value)}`;
       }
       case 'changed': {
-        return `Property '${path}${node.key}' was updated. From ${getValue(node.value1)} to ${getValue(node.value2)}`;
+        return `Property '${path}${node.key}' was updated. From ${getValue(node.oldValue)} to ${getValue(node.newValue)}`;
       }
       case 'deleted': {
         return `Property '${path}${node.key}' was removed`;
       }
       case 'nested': {
-        return plain(node.children, `${path}${node.key}.`);
+        return plain(node.value, `${path}${node.key}.`);
       }
       default: {
         return [];

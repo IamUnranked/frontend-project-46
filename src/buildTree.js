@@ -18,7 +18,7 @@ const buildTree = (object1, object2) => {
       return [...acc, { key, value: object1[key], type: 'unchanged' }];
     }
     return [...acc, {
-      key, value: object1[key], newValue: object2[key], type: 'changed',
+      key, oldValue: object1[key], newValue: object2[key], type: 'changed',
     }];
   }, []);
 };
