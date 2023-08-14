@@ -34,3 +34,8 @@ $ gendiff -h
 
 ## Usage example
 
+<ul>
+  <li><p><a href="https://asciinema.org/a/602636">Example lat file comparison (JSON)</a></p></li>
+  <li><p><a href="https://asciinema.org/a/602638">Example stylish formatter with nested structures (YAML)</a></p></li>
+  <li><p><a href="https://asciinema.org/a/602639">Example plain formatter</a></p></li>
+</ul>
