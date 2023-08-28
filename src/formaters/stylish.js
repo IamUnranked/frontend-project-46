@@ -24,8 +24,8 @@ const stylish = (tree, depth = 0) => {
     switch (node.type) {
       case 'changed':
         return [
-          `  ${indent}- ${node.key}: ${getValue(node.oldValue, depth + 1)}`,
-          `  ${indent}+ ${node.key}: ${getValue(node.newValue, depth + 1)}`,
+          `  ${indent}- ${node.key}: ${getValue(node.value1, depth + 1)}`,
+          `  ${indent}+ ${node.key}: ${getValue(node.value2, depth + 1)}`,
         ];
       case 'unchanged':
         return `  ${indent}  ${node.key}: ${getValue(node.value, depth + 1)}`;
