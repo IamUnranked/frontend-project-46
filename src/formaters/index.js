@@ -11,7 +11,7 @@ const getFormat = (tree, format = 'stylish') => {
     case 'json':
       return getJson(tree);
     default:
-      throw new Error('Invalid file'`${format}`);
+      throw new Error(`Invalid format ${format}`);
   }
 };
 

@@ -17,7 +17,7 @@ const plain = (tree, path = '') => {
         return `Property '${path}${node.key}' was added with value: ${getValue(node.value)}`;
       }
       case 'changed': {
-        return `Property '${path}${node.key}' was updated. From ${getValue(node.oldValue)} to ${getValue(node.newValue)}`;
+        return `Property '${path}${node.key}' was updated. From ${getValue(node.value1)} to ${getValue(node.value2)}`;
       }
       case 'deleted': {
         return `Property '${path}${node.key}' was removed`;
