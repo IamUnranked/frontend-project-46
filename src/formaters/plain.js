@@ -10,7 +10,7 @@ const getValue = (value) => {
   return value;
 };
 
-const plain = (tree, path = '') => {
+const makeFormatPlain = (tree, path = '') => {
   const result = tree.flatMap((node) => {
     switch (node.type) {
       case 'added': {
@@ -23,7 +23,7 @@ const plain = (tree, path = '') => {
         return `Property '${path}${node.key}' was removed`;
       }
       case 'nested': {
-        return plain(node.value, `${path}${node.key}.`);
+        return makeFormatPlain(node.value, `${path}${node.key}.`);
       }
       default: {
         return [];
@@ -33,4 +33,4 @@ const plain = (tree, path = '') => {
   return result.join('\n');
 };
 
-export default plain;
+export default makeFormatPlain;

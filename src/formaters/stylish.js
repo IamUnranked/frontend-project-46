@@ -18,7 +18,7 @@ const getValue = (depthValue, depth = 0) => {
   ].join('\n');
 };
 
-const stylish = (tree, depth = 0) => {
+const makeStylishFormat = (tree, depth = 0) => {
   const indent = tab.repeat(depth);
   const result = tree.flatMap((node) => {
     switch (node.type) {
@@ -34,7 +34,7 @@ const stylish = (tree, depth = 0) => {
       case 'added':
         return `  ${indent}+ ${node.key}: ${getValue(node.value, depth + 1)}`;
       case 'nested':
-        return `  ${indent}  ${node.key}: ${stylish(node.value, depth + 1)}`;
+        return `  ${indent}  ${node.key}: ${makeStylishFormat(node.value, depth + 1)}`;
       default:
         throw new Error('Unknown node.type');
     }
@@ -47,4 +47,4 @@ const stylish = (tree, depth = 0) => {
   ].join('\n');
 };
 
-export default stylish;
+export default makeStylishFormat;

@@ -1,15 +1,14 @@
-import stylish from './stylish.js';
-import plain from './plain.js';
-import getJson from './json.js';
+import makeStylishFormat from './stylish.js';
+import makeFormatPlain from './plain.js';
 
 const getFormat = (tree, format = 'stylish') => {
   switch (format) {
     case 'stylish':
-      return stylish(tree);
+      return makeStylishFormat(tree);
     case 'plain':
-      return plain(tree);
+      return makeFormatPlain(tree);
     case 'json':
-      return getJson(tree);
+      return JSON.stringify(tree, null, ' ');
     default:
       throw new Error(`Invalid format ${format}`);
   }
