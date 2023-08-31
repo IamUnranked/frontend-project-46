@@ -11,7 +11,7 @@ const data = (object1, object2) => {
     if (!_.has(object1, key)) {
       return { key, value: object2[key], type: 'added' };
     }
-    if (_.isObject(object1[key]) && _.isObject(object2[key])) {
+    if (_.isPlainObject(object1[key]) && _.isPlainObject(object2[key])) {
       return { key, value: data(object1[key], object2[key]), type: 'nested' };
     }
     if (object1[key] === object2[key]) {
