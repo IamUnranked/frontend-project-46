@@ -1,36 +1,40 @@
-import _ from 'lodash';
+import _ from "lodash";
 
 const getValue = (value) => {
   if (_.isString(value)) {
     return `'${value}'`;
   }
   if (_.isObject(value)) {
-    return '[complex value]';
+    return "[complex value]";
   }
   return value;
 };
 
-const makeFormatPlain = (tree, path = '') => {
+const makeFormatPlain = (tree, path = "") => {
   const result = tree.flatMap((node) => {
     switch (node.type) {
-      case 'added': {
-        return `Property '${path}${node.key}' was added with value: ${getValue(node.value)}`;
+      case "added": {
+        return `Property '${path}${node.key}' was added with value: ${getValue(
+          node.value
+        )}`;
       }
-      case 'changed': {
-        return `Property '${path}${node.key}' was updated. From ${getValue(node.value1)} to ${getValue(node.value2)}`;
+      case "changed": {
+        return `Property '${path}${node.key}' was updated. From ${getValue(
+          node.value1
+        )} to ${getValue(node.value2)}`;
       }
-      case 'deleted': {
+      case "deleted": {
         return `Property '${path}${node.key}' was removed`;
       }
-      case 'nested': {
-        return makeFormatPlain(node.value, `${path}${node.key}.`);
+      case "nested": {
+        return makeFormatPlain(node.children, `${path}${node.key}.`);
       }
       default: {
         return [];
       }
     }
   });
-  return result.join('\n');
+  return result.join("\n");
 };
 
 export default makeFormatPlain;

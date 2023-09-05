@@ -1,50 +1,52 @@
-import _ from 'lodash';
+import _ from "lodash";
 
-const tab = '    ';
-const indent = (depth = 0) => tab.repeat(depth);
-
-const stringify = (depthValue, depth = 0) => {
-  const spacing = indent(depth);
-
-  if (!_.isObject(depthValue)) {
-    return String(depthValue);
-  }
-  const result = Object.entries(depthValue).map(([key, value]) => `${tab}${spacing}${key}: ${stringify(value, depth + 1)}`);
-
-  return [
-    '{',
-    ...result,
-    `${spacing}}`,
-  ].join('\n');
+const indent = (depth, spacesCount = 4) => {
+  const replaсer = " ";
+  const signOffset = 2;
+  return replaсer.repeat(depth * spacesCount - signOffset);
 };
 
-const makeStylishFormat = (tree, depth = 0) => {
-  const spacing = indent(depth);
-  const result = tree.flatMap((node) => {
-    switch (node.type) {
-      case 'changed':
-        return [
-          `  ${spacing}- ${node.key}: ${stringify(node.value1, depth + 1)}`,
-          `  ${spacing}+ ${node.key}: ${stringify(node.value2, depth + 1)}`,
-        ];
-      case 'unchanged':
-        return `  ${spacing}  ${node.key}: ${stringify(node.value, depth + 1)}`;
-      case 'deleted':
-        return `  ${spacing}- ${node.key}: ${stringify(node.value, depth + 1)}`;
-      case 'added':
-        return `  ${spacing}+ ${node.key}: ${stringify(node.value, depth + 1)}`;
-      case 'nested':
-        return `  ${spacing}  ${node.key}: ${makeStylishFormat(node.value, depth + 1)}`;
-      default:
-        throw new Error('Unknown node.type');
-    }
-  });
+const stringify = (data, depth = 1) => {
+  if (!_.isObject(data)) {
+    return String(data);
+  }
+  const lines = Object.entries(data)
+    .map(
+      ([key, value]) =>
+        `${indent(depth + 1)}  ${key}: ${stringify(value, depth + 1)}`
+    )
+    .join("\n");
+  return `{\n${lines}\n${indent(depth)}  }`;
+};
 
-  return [
-    '{',
-    ...result,
-    `${spacing}}`,
-  ].join('\n');
+const iter = (node, depth = 1) => {
+  switch (node.type) {
+    case "changed":
+      return [
+        `${indent(depth)}- ${node.key}: ${stringify(node.value1, depth)}`,
+        `${indent(depth)}+ ${node.key}: ${stringify(node.value2, depth)}`,
+      ];
+    case "unchanged":
+      return `${indent(depth)}  ${node.key}: ${stringify(node.value, depth)}`;
+    case "deleted":
+      return `${indent(depth)}- ${node.key}: ${stringify(node.value, depth)}`;
+    case "added":
+      return `${indent(depth)}+ ${node.key}: ${stringify(node.value, depth)}`;
+    case "nested": {
+      const lines = node.children
+        .flatMap((child) => iter(child, depth + 1))
+        .join("\n");
+      return `${indent(depth)}  ${node.key}: {\n${lines}\n${indent(depth)}  }`;
+    }
+
+    default:
+      throw new Error(`Unknown node.type ${node}`);
+  }
+};
+
+const makeStylishFormat = (tree) => {
+  const lines = tree.flatMap((node) => iter(node, 1)).join("\n");
+  return `{\n${lines}\n}`;
 };
 
 export default makeStylishFormat;
