@@ -1,39 +1,51 @@
 import _ from "lodash";
 
-const getValue = (value) => {
+const stringify = (value) => {
   if (_.isString(value)) {
     return `'${value}'`;
   }
   if (_.isObject(value)) {
     return "[complex value]";
   }
-  return value;
+  return String(value);
 };
 
-const makeFormatPlain = (tree, path = "") => {
-  const result = tree.flatMap((node) => {
+const getProperty = (path, key) => `${path}${key}`;
+
+const iter = (tree, path = "") => {
+  return tree.flatMap((node) => {
     switch (node.type) {
       case "added": {
-        return `Property '${path}${node.key}' was added with value: ${getValue(
-          node.value
-        )}`;
+        return [
+          `Property '${getProperty(path, node.key)}' was added with value: ${stringify(
+            node.value
+          )}`,
+        ];
       }
       case "changed": {
-        return `Property '${path}${node.key}' was updated. From ${getValue(
-          node.value1
-        )} to ${getValue(node.value2)}`;
+        return [
+          `Property '${getProperty(path, node.key)}' was updated. From ${stringify(
+            node.value1
+          )} to ${stringify(node.value2)}`,
+        ];
       }
       case "deleted": {
-        return `Property '${path}${node.key}' was removed`;
+        return [
+          `Property '${getProperty(path, node.key)}' was removed`,
+        ]
       }
       case "nested": {
-        return makeFormatPlain(node.children, `${path}${node.key}.`);
+        return iter(node.children, `${path}${node.key}.`);
       }
       default: {
         return [];
       }
     }
   });
+};
+
+const makeFormatPlain = (tree) => {
+  const result = iter(tree);
   return result.join("\n");
 };
 
