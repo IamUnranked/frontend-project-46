@@ -1,35 +1,35 @@
-import _ from "lodash";
+import _ from 'lodash';
 
 const stringify = (value) => {
   if (_.isString(value)) {
     return `'${value}'`;
   }
   if (_.isObject(value)) {
-    return "[complex value]";
+    return '[complex value]';
   }
   return String(value);
 };
 
 const getProperty = (path, key) => `${path}${key}`;
 
-const iter = (tree, path = "") => tree.flatMap((node) => {
+const iter = (tree, path = '') => tree.flatMap((node) => {
   switch (node.type) {
-    case "added": {
+    case 'added': {
       return [
         `Property '${getProperty(path, node.key)}' was added with value: ${stringify(node.value)}`,
       ];
     }
-    case "changed": {
+    case 'changed': {
       return [
         `Property '${getProperty(path, node.key)}' was updated. From ${stringify(node.value1)} to ${stringify(node.value2)}`,
       ];
     }
-    case "deleted": {
+    case 'deleted': {
       return [
         `Property '${getProperty(path, node.key)}' was removed`,
-      ]
+      ];
     }
-    case "nested": {
+    case 'nested': {
       return iter(node.children, `${path}${node.key}.`);
     }
     default: {
@@ -40,7 +40,7 @@ const iter = (tree, path = "") => tree.flatMap((node) => {
 
 const makeFormatPlain = (tree) => {
   const result = iter(tree);
-  return result.join("\n");
+  return result.join('\n');
 };
 
 export default makeFormatPlain;

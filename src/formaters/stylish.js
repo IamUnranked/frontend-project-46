@@ -1,7 +1,7 @@
-import _ from "lodash";
+import _ from 'lodash';
 
 const indent = (depth, spacesCount = 4) => {
-  const replaсer = " ";
+  const replaсer = ' ';
   const signOffset = 2;
   return replaсer.repeat(depth * spacesCount - signOffset);
 };
@@ -12,30 +12,29 @@ const stringify = (data, depth = 1) => {
   }
   const lines = Object.entries(data)
     .map(
-      ([key, value]) =>
-        `${indent(depth + 1)}  ${key}: ${stringify(value, depth + 1)}`
+      ([key, value]) => `${indent(depth + 1)}  ${key}: ${stringify(value, depth + 1)}`,
     )
-    .join("\n");
+    .join('\n');
   return `{\n${lines}\n${indent(depth)}  }`;
 };
 
 const iter = (node, depth = 1) => {
   switch (node.type) {
-    case "changed":
+    case 'changed':
       return [
         `${indent(depth)}- ${node.key}: ${stringify(node.value1, depth)}`,
         `${indent(depth)}+ ${node.key}: ${stringify(node.value2, depth)}`,
       ];
-    case "unchanged":
+    case 'unchanged':
       return `${indent(depth)}  ${node.key}: ${stringify(node.value, depth)}`;
-    case "deleted":
+    case 'deleted':
       return `${indent(depth)}- ${node.key}: ${stringify(node.value, depth)}`;
-    case "added":
+    case 'added':
       return `${indent(depth)}+ ${node.key}: ${stringify(node.value, depth)}`;
-    case "nested": {
+    case 'nested': {
       const lines = node.children
         .flatMap((child) => iter(child, depth + 1))
-        .join("\n");
+        .join('\n');
       return `${indent(depth)}  ${node.key}: {\n${lines}\n${indent(depth)}  }`;
     }
 
@@ -45,7 +44,7 @@ const iter = (node, depth = 1) => {
 };
 
 const makeStylishFormat = (tree) => {
-  const lines = tree.flatMap((node) => iter(node, 1)).join("\n");
+  const lines = tree.flatMap((node) => iter(node, 1)).join('\n');
   return `{\n${lines}\n}`;
 };
 
